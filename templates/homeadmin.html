@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>homeadmin</title>
+    <link href="static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+
+    <script src="static/js/angular.js"></script>
+
+    <script src="static/js/controller.js"></script>
+</head>
+
+<body ng-controller="HomeCtrl">
+
+    <div class="container">
+        <div class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <button id="btnAdd" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal1">New account</button>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Welcome to ABC Bank Account</h3>
+        </div>
+        <div class="bs-example" data-example-id="panel-without-body-with-table">
+            <div class="panel panel-default">
+                <div class="panel-heading">AccountList</div>
+                <div class="panel-heading search_input">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="searchName">
+                </div>
+                <div >
+                    <table class="table table-hover table-striped ">
+                        <thead>
+                            <tr>
+                                <th> <a href="#" ng-click="sortType = 'account_number'">AN<span ng-show="sortType == 'account_number'" class="fa fa-caret-down"></span></a></th>
+                                <th><a href="#" ng-click="sortType = 'firstname'">FirstName<span ng-show="sortType == 'firstname'" class="fa fa-caret-down"></span></a></th>
+                                <th><a href="#" ng-click="sortType = 'lastname'">Lastname<span ng-show="sortType == 'lastname'" class="fa fa-caret-down"></span></a></th>
+                                <th><a href="#" ng-click="sortType = 'email'">Email<span ng-show="sortType == 'email'" class="fa fa-caret-down"></span></a></th>
+                        
+                                <th>Detail</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ac in listdb | filter : searchName | orderBy:sortType:sortReverse">
+                                <td>{{ '{{ac.account_number}}' }}</td>
+                                <td>{{ '{{ac.firstname}}' }}</td>
+                                <td>{{ '{{ac.lastname}}'}}</td>
+                                <td>{{ '{{ac.email}}' }}</td>
+                                <td> <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" ng-click="show_one(ac.id)"><span style="cursor:pointer;" class="glyphicon glyphicon-play"></span></button></td>
+                                <td><button id="btnAdd" type="button" class="btn btn-info btn-sm" ng-click="editAccount(ac.id)" data-toggle="modal" data-target="#myModal2"><span style="cursor: pointer;" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>
+                                <td><button type="button" class="btn btn-info btn-sm" ng-click="Delete_account(ac.id)"><span style="cursor: pointer;" class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel" >Detail Accoount info</h4>
+                </div>
+                <div class="modal-body">
+                     <table class="table table-hover table-striped ">
+                        <thead>
+                            <tr>
+                                <th>AN</th>
+                                <th>balance</th>
+                                <th>finame</th>
+                                <th>laname</th>
+                                <th>age</th>
+                                <th>Sex</th>
+                                <th>address</th>
+                                <th>employer</th>
+                                <th>city</th>
+                                <th>state</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ic in account">
+                                <td>{{ '{{ic.account_number}}' }}</td>
+                                <td>{{ '{{ic.balance}}' }}</td>
+                                <td>{{ '{{ic.firstname}}'}}</td>
+                                <td>{{ '{{ic.lastname}}' }}</td>
+                                <td>{{ '{{ic.age}}' }}</td>
+                                <td>{{ '{{ic.gender}}' }}</td>
+                                <td>{{ '{{ic.address}}' }}</td>
+                                <td>{{ '{{ic.employer}}' }}</td>
+                                <td>{{ '{{ic.city}}' }}</td>
+                                <td>{{ '{{ic.state}}' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+      
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel" >Add new account</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col form-group">
+                                <label for="txtaccount_number" class="control-label">Account_number:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.account_number" id="txtaccount_number" placeholder="Enter Account_number" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                            <div class="col form-group">
+                                <label for="txtbalance" class="control-label">balance:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.balance" id="txtbalance" placeholder="Enter balance" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col form-group">
+                                <label for="txtfirstname" class="control-label">firstname:</label>
+                                <input type="text" class="form-control mb-10 mr-sm-2 input-sm" ng-model="info.firstname" id="txtfirstname" placeholder="Enter firstname" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                            <div class="col form-group">
+                                <label for="txtlastname" class="control-label">lastname:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.lastname" id="txtlastname" placeholder="Enter lastname" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col form-group">
+                                <label for="txtemail" class="control-label">Email:</label>
+                                <input type="email" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.email" id="txtemail" placeholder="Enter email" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                            <div class="col form-group">
+                                <label for="txtpassword" class="control-label">Password:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.password" id="txtpassword" placeholder="Enter password" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col form-group">
+                                <label for="txtaddress" class="control-label">Address:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.address" id="txtaddress" placeholder="Enter email" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col form-group">
+                                <label for="txtage" class="control-label">Age:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.age" id="txtage"placeholder="Enter age" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                            <div class="col form-group">
+                                <label for="txtgender" class="control-label">Gender:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.gender" id="txtgender" placeholder="Enter M or F" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                            <div class="col form-group">
+                                <label for="txtemployer" class="control-label">Employer:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.employer" id="txtemployer" placeholder="Enter employer" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col form-group">
+                                <label for="txtcity" class="control-label">City:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.city" id="txtcity" placeholder="Enter city" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                            <div class="col form-group">
+                                <label for="txtstate" class="control-label">State:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.state" id="txtstate" placeholder="Enter state" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                            <div class="col form-group">
+                                <label for="txtrole" class="control-label">Role:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.role" id="txtrole" placeholder="Enter 0 or 1" required>
+                                <span class="ion-person form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <button ng-click="addaccount()" type="submit" class="btn btn-primary" >Add Account</button>
+                    </form>    
+                </div>
+                <div class="modal-footer">
+                    <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+      
+        </div>
+    </div>
+    <div class="modal fade" id="myModal2" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel" >Update Account</h4>
+                </div>
+                <div class="modal-body">
+                     <form ng-repeat="kc in info">
+                        <div class="row">
+                            <div class="col">
+                                <label for="txtaccount_number" class="control-label">Account_number:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" ng-model="info.account_number" id="txtaccount_number" required placeholder=" data_current: {{ '{{kc.account_number}}' }}">
+                            </div>
+                            <div class="col">
+                                <label for="txtbalance" class="control-label">balance:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" placeholder=" data_current: {{ '{{kc.balance}}' }}" id="txtbalance" required ng-model="info.balance">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="txtfirstname" class="control-label">firstname:</label>
+                                <input type="text" class="form-control mb-10 mr-sm-2 input-sm" placeholder=" data_current: {{ '{{kc.firstname}}' }}" id="txtfirstname" required ng-model="info.firstname">
+                            </div>
+                            <div class="col">
+                                <label for="txtlastname" class="control-label">lastname:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" placeholder=" data_current: {{ '{{kc.lastname}}' }}" id="txtlastname" required ng-model="info.lastname">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="txtemail" class="control-label">Email:</label>
+                                <input type="email" class="form-control mb-2 mr-sm-2 input-sm" placeholder=" data_current: {{ '{{kc.email}}' }}" id="txtemail" required ng-model="info.email">
+                            </div>
+                            <div class="col">
+                                <label for="txtpassword" class="control-label">Password:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" placeholder=" data_current: {{ '{{kc.password}}' }}" id="txtpassword" required ng-model="info.password">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="txtaddress" class="control-label">Address:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" placeholder=" data_current:   {{ '{{kc.address}}' }}" id="txtaddress" required ng-model="info.address">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="txtage" class="control-label">Age:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" placeholder=" data_current: {{ '{{kc.age}}' }}" id="txtage" required ng-model="info.age">
+                            </div>
+                            <div class="col">
+                                <label for="txtgender" class="control-label">Gender:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" placeholder=" data_current: {{ '{{kc.gender}}' }}" id="txtgender" required ng-model="info.gender">
+                            </div>
+                            <div class="col">
+                                <label for="txtemployer" class="control-label">Employer:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" placeholder=" data_current: {{ '{{kc.employer}}' }}" id="txtemployer" required ng-model="info.employer">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="txtcity" class="control-label">City:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" placeholder="data_current: {{ '{{kc.city}}' }}" id="txtcity" required ng-model="info.city">
+                            </div>
+                            <div class="col">
+                                <label for="txtstate" class="control-label">State:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" placeholder=" data_current: {{ '{{kc.state}}' }}" id="txtstate" required ng-model="info.state">
+                            </div>
+                            <div class="col">
+                                <label for="txtrole" class="control-label">Role:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 input-sm" placeholder="data_current: {{ '{{kc.role}}' }}" id="txtrole" required ng-model="info.role">
+                            </div>
+                        </div>
+                        <button ng-click="updateAccount()" type="button" class="btn btn-primary" data-dismiss="modal">Update</button>
+                    </form>    
+                </div>
+                <div class="modal-footer">
+                     <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+      
+        </div>
+    </div>
+
+    <div id="deleteConfirm" class="modal fade bs-example-modal-md in" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel">You are about to delete this entry. Do you want to proceed ?</h4> 
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" ng-click="deleteAccount()" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>home</title>
+    <link href="static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="static/css/jumbotron-narrow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script src="static/js/angular.js"></script>
+
+    <script src="static/js/controller.js"></script>
+</head>
+
+<body ng-controller="HomeCtrl">
+
+    <div class="container">
+        <div class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <!--<button ng-show="showAdd" id="btnAdd" ng-click="showList()" type="button" class="btn btn-primary">Show all account</button>-->
+                </ul>
+            </nav>
+            <h3 class="text-muted">Welcome to ABC Bank Account</h3>
+        </div>
+        <div class="bs-example" data-example-id="panel-without-body-with-table">
+            <div class="panel panel-default">
+                <div class="panel-heading">AccountList</div>
+                <div class="panel-heading search_input">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="searchName">
+                </div>
+                <div >
+                    <table class="table table-hover table-striped ">
+                        <thead>
+                            <tr>
+                                <th> <a href="#" ng-click="sortType = 'account_number'">AN<span ng-show="sortType == 'account_number'" class="fa fa-caret-down"></span></a></th>
+                                <th><a href="#" ng-click="sortType = 'firstname'">FirstName<span ng-show="sortType == 'firstname'" class="fa fa-caret-down"></span></a></th>
+                                <th><a href="#" ng-click="sortType = 'lastname'">Lastname<span ng-show="sortType == 'lastname'" class="fa fa-caret-down"></span></a></th>
+                                <th><a href="#" ng-click="sortType = 'email'">Email<span ng-show="sortType == 'email'" class="fa fa-caret-down"></span></a></th>
+                        
+                                <th>Detail</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ac in listdb | filter : searchName | orderBy:sortType:sortReverse">
+                                <td>{{ '{{ac.account_number}}' }}</td>
+                                <td>{{ '{{ac.firstname}}' }}</td>
+                                <td>{{ '{{ac.lastname}}'}}</td>
+                                <td>{{ '{{ac.email}}' }}</td>
+                                <td> <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" ng-click="show_one(ac.id)"><span style="cursor:pointer;" class="glyphicon glyphicon-pencil"></span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel" >Detail Accoount info</h4>
+                </div>
+                <div class="modal-body">
+                     <table class="table table-hover table-striped ">
+                        <thead>
+                            <tr>
+                                <th>AN</th>
+                                <th>balance</th>
+                                <th>finame</th>
+                                <th>laname</th>
+                                <th>age</th>
+                                <th>Sex</th>
+                                <th>address</th>
+                                <th>employer</th>
+                                <th>city</th>
+                                <th>state</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ic in account">
+                                <td>{{ '{{ic.account_number}}' }}</td>
+                                <td>{{ '{{ic.balance}}' }}</td>
+                                <td>{{ '{{ic.firstname}}'}}</td>
+                                <td>{{ '{{ic.lastname}}' }}</td>
+                                <td>{{ '{{ic.age}}' }}</td>
+                                <td>{{ '{{ic.gender}}' }}</td>
+                                <td>{{ '{{ic.address}}' }}</td>
+                                <td>{{ '{{ic.employer}}' }}</td>
+                                <td>{{ '{{ic.city}}' }}</td>
+                                <td>{{ '{{ic.state}}' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"  class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+      
+        </div>
+    </div>
+
+    
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+
+</body>
+</html>
